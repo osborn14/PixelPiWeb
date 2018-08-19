@@ -6,23 +6,25 @@
 </head>
 <body>
     <form class="foo">
+        
+        <input type="button" id="button_register" value="Register" />
         Create user:<br>
-        <input type="text" id="text_new_username_input" placeholder="New namename"></input>
-        <input type="text" id="text_new_password_input" placeholder="New password"></input>
-        <input type="button" id="button_create_member" value="Create member"></input>
+        <input type="text" id="text_new_username_input" placeholder="New namename" />
+        <input type="text" id="text_new_password_input" placeholder="New password" />
+        <input type="button" id="button_create_member" value="Create member" />
         <br><p>Status: <span id="text_create_member_status">N/A</span></p>
         
         <br><br>Credentials:<br>
-        <input type="text" id="text_existing_username_input" placeholder="Existing namename"></input>
-        <input type="text" id="text_existing_password_input" placeholder="Existing password"></input>
-        <input type="button" id="button_sign_in" value="Sign in"></input>
+        <input type="text" id="text_existing_username_input" placeholder="Existing namename" />
+        <input type="text" id="text_existing_password_input" placeholder="Existing password" />
+        <input type="button" id="button_sign_in" value="Sign in" />
         <br><p>Status: <span id="text_login_status">N/A</span></p>
 
         <br><br>Send message:<br>
-        <input type="text" id="text_chat_input" placeholder="Your message..."></input>
-        <input type="button" id="button_send_chat" value="Send message"></input>
+        <input type="text" id="text_chat_input" placeholder="Your message..." />
+        <input type="button" id="button_send_chat" value="Send message" />
         
-        <br><br><p><span id="text_output_sender"></span><span id="text_output"></span></p>
+        <br><br><p><span id="text_output_sender"></span><span id="text_output" /></p>
     </form>
 
 <script src="build/main.bundle.js"></script>    
