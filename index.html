@@ -3,11 +3,75 @@
 <head>
     <meta charset="utf-8">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
+    
+    <style>
+        
+        .device{
+            
+        }
+        
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.callapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+</style>
 </head>
 <body>
+    <div id="div1" />
+            
+    
+    
     <form class="foo">
         
+        
+        
         <input type="button" id="button_register" value="Register" />
+        <br><br>
+        
+        R:<br>
+        <input type="text" id="r_text_input" />
+        G:<br>
+        <input type="text" id="g_text_input" />
+        B:<br>
+        <input type="text" id="b_text_input" />
+        <input type="button" id="button_display" value="Display" />
+
+        <div>
+            <H1>Devices</h1>
+            <>
+            
+        </div>
         Create user:<br>
         <input type="text" id="text_new_username_input" placeholder="New namename" />
         <input type="text" id="text_new_password_input" placeholder="New password" />
