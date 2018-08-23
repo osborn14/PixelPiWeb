@@ -1,12 +1,7 @@
-//import {COMMAND, REGISTER_DEVICE, DEVICE} from 'constants.js';
+import {COMMAND, COMMANDS} from 'constants.js';
 //TODO: Get imports working!
 
-const COMMAND = 'Command';
-const COMMANDS = {
-    REGISTER_DEVICE: 'Register Device',
-    UPDATE: 'Update',
-    DISPLAY: 'Display'
-};
+
 
 const DISPLAY = {
     TASK_ID: '',
@@ -27,6 +22,11 @@ const INTERFACE_DETAILS = {
     LIST: 'Interface List'
 };
 
+const INTERFACE_CODES = {
+    NEOPIXEL: 'NP',
+    FIFTY_FIFTY: '50'
+}
+
 const TASK = 'Task';
 const TASK_DETAILS = {
     ON_OFF_CONTROL: 'On Off Control',
@@ -36,15 +36,21 @@ const TASK_DETAILS = {
 }
 
 const ON_OFF_CONTROLS = {
-    MANUAL = 'Manual',
-    TIMER = 'Timer'
+    MANUAL: 'Manual',
+    TIMER: 'Timer'
 }
 
 const DISPLAY_EFFECTS = {
-    SIMPLE = 'Simple'
+    SIMPLE: 'Simple'
 }
 
+class Overview {
+    constructor() {
+        console.log('Inside class');
+    }
+}
 
+let overview = new Overview();
 
 //TODO: Create consistency between device list, interface and Tasks
 
@@ -94,15 +100,94 @@ const sample_json = {
             ]
         }
     ]
+};
+
+function displayTask(button_id) {
+    let button_id_split = button_id.split('_');
+    let button_unique_identifier = button_id_split[0];
+    let button_descriptor = button_id_split[1];
+    let button_element = button_id_split[2];
+    
+//    switch (interface_details[INTERFACE_DETAILS.CODE]) { 
+//        case [INTERFACE_CODES.NEOPIXEL]:
+//            let r, g, b;
+//            
+//            inputs = document.getElementsByTagName('input');
+//            for (i = 0; i < inputs.length; ++i) {
+//                let input_id = inputs[i].id;
+//                
+//                let input_id_split = input_id.split('_');
+//                let input_unique_identifier = input_id_split[0];
+//                let input_descriptor =  = input_id_split[1];
+//                
+//                if (button_unique_identifier === input_unique_identifier) {
+//                    if (input_descriptor === 'red') {
+//                        let r = inputs[i].value;
+//                    } else if (input_descriptor === 'green') {
+//                        let g = inputs[i].value;
+//                    } else if (input_descriptor === 'blue') {
+//                        let b = inputs[i].value;
+//                    }
+//                }
+//            }
+//    }
 }
+
 function createTaskTable(task_list) {
+    let task_details = document.createElement("div");    
     let task_table = document.createElement("table");
     
-    for (let i = 0; i < task_list.length; i++) {
+    let table_header_row = document.createElement("tr")
+    let table_header_on_off_control = document.createElement("th");
+    let table_header_display_effect = document.createElement("th");
+    let table_header_rgb = document.createElement("th");
         
+    table_header_on_off_control.innerHTML = TASK_DETAILS.ON_OFF_CONTROL;
+    table_header_display_effect.innerHTML = TASK_DETAILS.DISPLAY_EFFECT;
+    table_header_rgb.innerHTML = TASK_DETAILS.RGB;
+        
+    table_header_row.appendChild(table_header_on_off_control);
+    table_header_row.appendChild(table_header_display_effect);
+    table_header_row.appendChild(table_header_rgb);
+        
+    task_table.appendChild(table_header_row); 
+    
+    for (let i = 0; i < task_list.length; i++) {
+        let table_data_row  = document.createElement("tr");
+        let table_data_on_off_control = document.createElement("td");
+        let table_data_display_effect = document.createElement("td");
+        let table_data_rgb = document.createElement("td");
+        
+        table_data_on_off_control.innerHTML = task_list[i][TASK_DETAILS.ON_OFF_CONTROL];
+        table_data_display_effect.innerHTML = task_list[i][TASK_DETAILS.DISPLAY_EFFECT];
+        table_data_rgb.innerHTML = task_list[i][TASK_DETAILS.RGB];
+        
+        table_data_row.appendChild(table_data_on_off_control);
+        table_data_row.appendChild(table_data_display_effect);
+        table_data_row.appendChild(table_data_rgb);
+        
+        task_table.appendChild(table_data_row);  
     }
     
-    return task_table;
+    task_details.appendChild(task_table);  
+    
+    return task_details;
+}
+
+function createInterfaceDetailsContents(interface_details) {
+    let container = document.createElement("div");
+    container.setAttribute('class', 'content');
+    
+    console.log("Task list");
+    console.log(interface_details[TASK_DETAILS.LIST]);
+    
+    let task_details = createTaskTable(interface_details[TASK_DETAILS.LIST]);
+    let task_creator = createInterfaceTaskCreator(interface_details);
+    
+    container.appendChild(task_details);
+    container.appendChild(task_creator);
+    
+    return container;
 }
 
 function createInterfaceButtonContainer(interface_details) {
@@ -112,22 +197,55 @@ function createInterfaceButtonContainer(interface_details) {
     
     interface_dropdown_button.setAttribute('class', 'collapsible');
     interface_dropdown_button.innerHTML = interface_details[INTERFACE_DETAILS.UNIQUE_IDENTIFIER] + ": " + interface_details[INTERFACE_DETAILS.DESCRIPTION];
-    //document.getElementById( "a" ).setAttribute( "onClick", "javascript: Boo();" );
-        
-    let task_details = document.createElement("div");
-    task_details.setAttribute('class', 'content');
-    
-    task_details.innerHTML = 'Sample task';
-    
-    task_details = createTaskTable(interface_detail[TASK_DETAILS.LIST]);
-        
-    let task_para = document.createElement("p");
-    task_para.innerHTML = 'Sample task';
         
     button_container.appendChild(interface_dropdown_button);
-    button_container.appendChild(task_details);
+    button_container.appendChild(createInterfaceDetailsContents(interface_details));
         
     return button_container;
+}
+
+function createNeopixelTaskCreator(interface_details) {
+    let container = document.createElement("div");
+    let r_input = document.createElement("input");
+    let g_input = document.createElement("input");
+    let b_input = document.createElement("input");
+    
+    r_input.setAttribute('placeholder', 'red');
+    g_input.setAttribute('placeholder', 'green');
+    b_input.setAttribute('placeholder', 'blue');
+    
+    r_input.setAttribute('id', interface_details[INTERFACE_DETAILS.UNIQUE_IDENTIFIER] + "_red_input");
+    g_input.setAttribute('id', interface_details[INTERFACE_DETAILS.UNIQUE_IDENTIFIER] + "_green_input");
+    b_input.setAttribute('id', interface_details[INTERFACE_DETAILS.UNIQUE_IDENTIFIER] + "_blue_input");
+    
+    container.appendChild(r_input);
+    container.appendChild(g_input);
+    container.appendChild(b_input);
+    
+    return container;
+}
+
+function createInterfaceTaskCreator(interface_details) {
+    let container = document.createElement("div");
+    let inner_container = document.createElement("div");
+    
+    switch(interface_details[INTERFACE_DETAILS.CODE]) {
+        case INTERFACE_CODES.NEOPIXEL:
+            inner_container = createNeopixelTaskCreator(interface_details);
+    }
+    
+    container.appendChild(inner_container);
+    
+    let submit_button = document.createElement("button");
+    let submit_button_id = interface_details[INTERFACE_DETAILS.UNIQUE_IDENTIFIER] + "_submit_button";
+    
+    submit_button.setAttribute('id', submit_button_id);
+    submit_button.setAttribute('onClick', 'javascript: displayTask(this.id);');
+    submit_button.innerHTML = 'Display task';
+    
+    container.appendChild(submit_button);
+    
+    return container;
 }
 
 let device_list = sample_json['Device List'];
@@ -147,8 +265,7 @@ for (let device_i = 0; device_i < device_list.length; device_i++) {
         let button_container = createInterfaceButtonContainer(interface_list[interface_i]);
         device_div.appendChild(button_container);
     }
-    
-    
+     
     let currentDiv = document.getElementById("div1"); 
     document.body.insertBefore(device_div, currentDiv); 
 }
