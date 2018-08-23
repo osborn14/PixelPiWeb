@@ -1,5 +1,6 @@
-import {COMMAND, COMMANDS} from 'constants.js';
+import {COMMAND, COMMANDS} from './constants.js';
 //TODO: Get imports working!
+
 
 
 
